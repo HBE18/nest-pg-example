@@ -8,7 +8,7 @@ import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [BookingsModule, ConfigModule.forRoot({
-    envFilePath: './common/envs/.env',
+    envFilePath: './src/common/envs/.env',
     isGlobal: true,
   })],
   controllers: [AppController],
