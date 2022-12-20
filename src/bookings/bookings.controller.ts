@@ -1,4 +1,9 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 
 @Controller('bookings')
-export class BookingsController {}
+export class BookingsController {
+  @Get()
+  getBookings(): { sayHello: string } {
+    return { sayHello: 'Hello' };
+  }
+}

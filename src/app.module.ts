@@ -6,6 +6,7 @@ import { DbService } from './common/db/db.service';
 import { ConfigModule } from '@nestjs/config';
 
 
+
 @Module({
   imports: [BookingsModule, ConfigModule.forRoot({
     envFilePath: './src/common/envs/.env',

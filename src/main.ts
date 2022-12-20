@@ -8,10 +8,10 @@ async function bootstrap() {
   const configService: ConfigService = app.get(ConfigService);
   const port: number = configService.get<number>('PORT');
   const config = new DocumentBuilder()
-    .setTitle('Cats example')
-    .setDescription('The cats API description')
+    .setTitle('Bookings API Example')
+    .setDescription('The bookings API swagger document')
     .setVersion('1.0')
-    .addTag('cats')
+    .addTag('bookings')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
