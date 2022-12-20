@@ -1,27 +1,10 @@
-import { listUser, selectQueryResult } from './db.models';
+import { listUser, selectQueryResult, filterParams } from './db.models';
 import { ConfigService } from '@nestjs/config';
 import { Injectable } from '@nestjs/common';
 import { Client, QueryResult } from 'pg';
 
 type resObj = {
   Results: listUser[];
-};
-
-type filterList = {
-  user_firstname: boolean,
-  user_lastname: boolean,
-  booking_startsat: boolean,
-  appartment_name: boolean,
-  confirmed: boolean,
-  filter_count: number
-}
-
-type filterParams = {
-  user_firstname?: string;
-  user_lastname?: string;
-  booking_startsat?: string;
-  appartment_name?: string;
-  confirmed?: number;
 };
 
 @Injectable()
@@ -40,7 +23,30 @@ export class DbService {
     this.client.connect();
   }
 
-  async getData(filters: filterList, filterParams: filterParams): Promise<resObj> {
+  addWhere(
+    query: string,
+    check: string,
+    value: string,
+    position: number,
+  ): string {
+    if (position === 0) {
+      query.slice(0, -1);
+      query += ` WHERE`;
+      return query;
+    }
+    if (position === 1) {
+      query += ' ' + check + ' = ' + value + ' AND';
+      return query;
+    }
+    if (position === -1) {
+      query.slice(0, -4);
+      query += ';';
+      return query;
+    }
+    return query;
+  }
+
+  async getData(params?: [], values?: []): Promise<resObj> {
     var query = `
       SELECT
         us.first_name,
@@ -60,8 +66,15 @@ export class DbService {
       LEFT JOIN appartments AS ap
       ON ap.id = bk.apartment_id
       LEFT JOIN users AS us
-      ON us.id = bk.user_id
+      ON us.id = bk.user_id;
     `;
+    if (params && values) {
+      query = this.addWhere(query, '', '', 0);
+      params.forEach((elem) => {
+        query = this.addWhere(query, elem, values[params.indexOf(elem)], 1);
+      });
+      query = this.addWhere(query, '', '', -1);
+    }
     const queryRes = await this.client.query(query);
     const resultingObject: resObj = this.formatResult(queryRes);
     return resultingObject;

@@ -34,3 +34,23 @@ export interface selectQueryResult {
   booked_for: number,
   confirmed: number
 }
+
+export interface createBooking {
+  id: number;
+  user_id: number;
+  starts_at: string;
+  booked_at: string;
+  booked_for: number;
+  apartment_id: number;
+  confirmed: number;
+}
+
+export interface updateBooking extends Partial <createBooking>{}
+
+export interface filterParams {
+  user_firstname?: string;
+  user_lastname?: string;
+  booking_startsat?: string;
+  appartment_name?: string;
+  confirmed?: number;
+};
