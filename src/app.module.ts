@@ -13,6 +13,6 @@ import { ConfigModule } from '@nestjs/config';
     isGlobal: true,
   })],
   controllers: [AppController],
-  providers: [AppService, DbService],
+  providers: [AppService],
 })
 export class AppModule {}

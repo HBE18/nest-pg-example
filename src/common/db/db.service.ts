@@ -1,11 +1,7 @@
-import { listUser, selectQueryResult, filterParams } from './db.models';
+import { listUser, selectQueryResult, resObj } from './db.models';
 import { ConfigService } from '@nestjs/config';
 import { Injectable } from '@nestjs/common';
 import { Client, QueryResult } from 'pg';
-
-type resObj = {
-  Results: listUser[];
-};
 
 @Injectable()
 export class DbService {
@@ -21,6 +17,12 @@ export class DbService {
     };
     this.client = new Client(dbConf);
     this.client.connect();
+  }
+
+  addLimit(query: string, limit: number) {
+    query.slice(0, -1);
+    query += ` LIMIT = ${limit};`;
+    return query;
   }
 
   addWhere(
@@ -46,7 +48,11 @@ export class DbService {
     return query;
   }
 
-  async getData(params?: string[], values?: string[]): Promise<resObj> {
+  async getData(
+    params?: string[],
+    values?: string[],
+    limit?: number,
+  ): Promise<resObj> {
     var query = `
       SELECT
         us.first_name,
@@ -68,6 +74,7 @@ export class DbService {
       LEFT JOIN users AS us
       ON us.id = bk.user_id;
     `;
+
     if (params && values) {
       query = this.addWhere(query, '', '', 0);
       params.forEach((elem) => {
@@ -75,6 +82,11 @@ export class DbService {
       });
       query = this.addWhere(query, '', '', -1);
     }
+    /*
+    if (limit) {
+      query = this.addLimit(query,limit);
+    }
+    */
     const queryRes = await this.client.query(query);
     const resultingObject: resObj = this.formatResult(queryRes);
     return resultingObject;
@@ -105,26 +117,3 @@ export class DbService {
     return results;
   }
 }
-/*
-Query: 
-SELECT
-    us.first_name,
-    us.last_name,
-    us.email,
-    us.phone,
-    ap.name,
-    ap.address,
-    ap.address2,
-    ap.zip_code,
-    ap.city,
-    ap.country,
-    bk.starts_at,
-    bk.booked_for,
-    bk.confirmed
-FROM bookings AS bk
-LEFT JOIN appartments AS ap
-ON ap.id = bk.apartment_id
-LEFT JOIN users AS us
-ON us.id = bk.user_id
-LIMIT 10; 
-*/

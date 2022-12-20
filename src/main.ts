@@ -7,6 +7,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService: ConfigService = app.get(ConfigService);
   const port: number = configService.get<number>('PORT');
+  /*
   const config = new DocumentBuilder()
     .setTitle('Bookings API Example')
     .setDescription('The bookings API swagger document')
@@ -14,7 +15,8 @@ async function bootstrap() {
     .addTag('bookings')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('api', app, document); 
+  */
   await app.listen(port, () => {
     console.log('[WEB]', configService.get<string>('BASE_URL'));
   });

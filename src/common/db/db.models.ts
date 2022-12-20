@@ -14,25 +14,25 @@ export interface appartmentsBase {
 }
 
 export interface listUser extends usersBase, appartmentsBase {
-  booking_start_date: Date,
-  booking_end_date: Date,
-  confirmed: number
+  booking_start_date: Date;
+  booking_end_date: Date;
+  confirmed: number;
 }
 
 export interface selectQueryResult {
-  first_name: string,
-  last_name: string,
-  email: string,
-  phone: string,
-  name: string,
-  address: string,
-  address2: string,
-  zip_code: string,
-  city: string,
-  country: string,
-  starts_at: string,
-  booked_for: number,
-  confirmed: number
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  name: string;
+  address: string;
+  address2: string;
+  zip_code: string;
+  city: string;
+  country: string;
+  starts_at: string;
+  booked_for: number;
+  confirmed: number;
 }
 
 export interface createBooking {
@@ -45,7 +45,7 @@ export interface createBooking {
   confirmed: number;
 }
 
-export interface updateBooking extends Partial <createBooking>{}
+export interface updateBooking extends Partial<createBooking> {}
 
 export interface filterParams {
   user_firstname?: string;
@@ -53,4 +53,19 @@ export interface filterParams {
   booking_startsat?: string;
   appartment_name?: string;
   confirmed?: number;
+}
+
+export type resObj = {
+  Results: listUser[];
+};
+
+export type filterParam = {
+  params: any[];
+  values: any[];
+};
+
+export type tparam = {
+  limit: number;
+  page: number;
+  filterParams: filterParam;
 };
