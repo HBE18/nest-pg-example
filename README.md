@@ -6,11 +6,17 @@ This example uses a mock database from [UIBakery](https://uibakery.io/sql-playgr
 
 ## Installation
 
+First, you should provide your database credentials at [common/envs/.env.txt](/src/common/envs/.env.txt) and edit the file name as `.env` (erase the .txt).
+
+### Then proceed with given steps below:  
+
+<br>
+
 ```bash
 $ npm install
 ```
 
-## Running the app
+### Running the app
 
 ```bash
 # development
@@ -23,7 +29,7 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Test
+### Test
 
 ```bash
 # unit tests
