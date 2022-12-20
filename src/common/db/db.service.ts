@@ -46,7 +46,7 @@ export class DbService {
     return query;
   }
 
-  async getData(params?: [], values?: []): Promise<resObj> {
+  async getData(params?: string[], values?: string[]): Promise<resObj> {
     var query = `
       SELECT
         us.first_name,

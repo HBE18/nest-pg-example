@@ -12,7 +12,9 @@ export class BookingsService {
   }
   
   getBooking(bookingId: string) {
-    return this.dbService.getData
+    let param:string[] = ['id'];
+    let value = [`${bookingId}`];
+    return this.dbService.getData(param, value);
   }
 
 }
